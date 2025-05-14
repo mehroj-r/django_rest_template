@@ -67,6 +67,7 @@ settings_local.py
 # dotenv
 .env
 .env.*
+!.env.example
 
 # Gunicorn/PID files
 *.pid
