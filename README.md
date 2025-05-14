@@ -51,8 +51,8 @@ Overrides `base.py` for production use:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/django-rest-template.git
-cd django-rest-template
+git clone https://github.com/mehroj-r/django_rest_template.git
+cd django_rest_template
 ```
 
 ### 2. Create and Activate Virtual Environment
