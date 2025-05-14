@@ -1,0 +1,188 @@
+# ===================================
+# PYTHON
+# ===================================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python virtual environments
+venv/
+env/
+ENV/
+.venv/
+.pip-selfcheck.json
+
+# Python build files
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# ===================================
+# DJANGO
+# ===================================
+
+# SQLite DB files
+*.sqlite3
+*.db
+
+# Django migrations
+**/migrations/
+!*/migrations/__init__.py
+
+# Media & static files (runtime generated)
+media/
+staticfiles/
+static_root/
+static_cdn/
+collected_static/
+public/static/
+assets/
+
+# Local settings
+local_settings.py
+settings_local.py
+
+# dotenv
+.env
+.env.*
+
+# Gunicorn/PID files
+*.pid
+
+# Django cache
+*.log
+*.pot
+*.pyc
+celerybeat-schedule
+*.mo
+
+# Coverage reports
+htmlcov/
+.coverage
+.tox/
+.cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# ===================================
+# IDEs & EDITORS
+# ===================================
+
+# VS Code
+.vscode/
+
+# JetBrains IDEs (PyCharm, etc.)
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Atom
+.atom/
+*.atom/
+
+# Vim
+*.swp
+*.swo
+
+# Emacs
+*~
+.#*
+
+# ===================================
+# OS / SYSTEM FILES
+# ===================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# Linux
+*~
+.nfs*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ===================================
+# TESTS / CI / MISC
+# ===================================
+
+# pytest
+.pytest_cache/
+__snapshots__/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+
+# Pyre
+.pyre/
+
+# Pytype
+.pytype/
+
+
+# Logs
+logs/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# celery
+celerybeat.pid
+
+# Sphinx docs
+docs/_build/
+
+# Others
+*.bak
+*.orig
+*.rej
+*.tmp
+*.temp
+*.out
+
+# ===================================
+# DOCKER (optional)
+# ===================================
+
+docker-compose.override.yml
+.docker/
+*.sock
+*.tar
+*.gz
+
