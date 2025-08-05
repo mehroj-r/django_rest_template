@@ -10,6 +10,18 @@ SECRET_KEY = config("DJANGO_SECRET_KEY", default="django-insecure-change-me")
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="").split(",")
 DATABASE_URL = f"postgres://{config("POSTGRES_USER")}:{config("POSTGRES_PASSWORD")}@{config("POSTGRES_HOST")}/{config("POSTGRES_DB")}"
 
+UNFOLD_APPS = [
+    "unfold",
+    "unfold.contrib.filters",
+    "unfold.contrib.forms",
+    "unfold.contrib.inlines",
+    "unfold.contrib.import_export",
+    "unfold.contrib.guardian",
+    "unfold.contrib.simple_history",
+    "unfold.contrib.location_field",
+    # 'unfold.contrib.constance',
+]
+
 DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -29,7 +41,7 @@ LOCAL_APPS = [
     "apps.core",
 ]
 
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+INSTALLED_APPS = UNFOLD_APPS + DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -139,4 +151,20 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     )
+}
+
+AUTH_USER_MODEL = "account.User"  # noqa
+
+UNFOLD = {
+    "SITE_URL": "/admin/",
+    "SITE_TITLE": "DJANGO REST Template",
+    "SITE_HEADER": "DJANGO REST Template",
+    "SITE_SUBHEADER": lambda request: (
+        request.user.get_navigation_title()
+        if request.user.is_authenticated
+        else "Unknown User"
+    ),
+    "SIDEBAR": {
+        "show_search": False,
+    },
 }

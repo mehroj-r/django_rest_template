@@ -15,6 +15,7 @@ dependencies = [
     "django-extensions>=4.1",
     "django-filter>=25.1",
     "django-query-counter>=0.4.1",
+    "django-unfold>=0.63.0",
     "djangorestframework>=3.16.0",
     "djangorestframework-simplejwt[crypto]>=5.5.1",
     "markdown>=3.8.2",
