@@ -55,18 +55,12 @@ git clone https://github.com/mehroj-r/django_rest_template.git
 cd django_rest_template
 ```
 
-### 2. Create and Activate Virtual Environment
+### 2. Install Dependencies
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+uv sync
 ```
 
-### 3. Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Set Environment Variables (for `dev.py`)
+### 3. Set Environment Variables (for `dev.py`)
 Create a `.env` file or set manually:
 ```bash
 export DB_NAME=your_db
@@ -76,7 +70,7 @@ export DB_IP=127.0.0.1
 export DB_PORT=5432
 ```
 
-### 5. Run the Server
+### 4. Run the Server
 
 #### Development
 ```bash

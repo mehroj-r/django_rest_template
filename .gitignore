@@ -47,10 +47,6 @@ poetry.lock
 *.sqlite3
 *.db
 
-# Django migrations
-**/migrations/
-!*/migrations/__init__.py
-
 # Media & static files (runtime generated)
 media/
 staticfiles/

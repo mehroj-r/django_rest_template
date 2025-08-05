@@ -1,0 +1,30 @@
+services:
+  db:
+    container_name: db-container-name
+    image: postgres:17.5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5400:5432"
+    restart: unless-stopped
+    env_file:
+      - .env
+
+  web:
+    build: .
+    container_name: web-container-name
+    entrypoint: /app/scripts/entrypoint.sh
+    volumes:
+      - ./src/staticfiles:/app/staticfiles
+      - ./src/media:/app/media
+      - ./logs:/app/logs
+    ports:
+      - "8005:8000"
+    depends_on:
+      - db
+    restart: unless-stopped
+    env_file:
+      - .env
+
+volumes:
+  postgres_data:

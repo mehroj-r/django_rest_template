@@ -1,0 +1,50 @@
+services:
+  db:
+    container_name: db-prod-container-name
+    image: postgres:17.5-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5400:5432"
+    networks:
+      - network-default
+    restart: unless-stopped
+    env_file:
+      - .env
+
+  web:
+    container_name: web-prod-container-name
+    build: .
+    entrypoint: /app/scripts/entrypoint.sh
+    volumes:
+      - ./src/staticfiles:/app/staticfiles
+      - ./src/media:/app/media
+      - ./logs:/app/logs
+    depends_on:
+      - db
+    networks:
+      - network-default
+    restart: unless-stopped
+    env_file:
+      - .env
+
+  nginx:
+    container_name: nginx-prod-container-name
+    build: src/nginx
+    ports:
+      - "127.0.0.1:1050:1050"
+    volumes:
+      - ./src/staticfiles:/app/staticfiles
+      - ./src/media:/app/media
+    depends_on:
+      - web
+    networks:
+      - network-default
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  network-default:
+    driver: bridge
