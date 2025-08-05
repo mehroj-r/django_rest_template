@@ -5,7 +5,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5400:5432"
+      - "127.0.0.1:${DB_PORT}:5432"
     networks:
       - network-default
     restart: unless-stopped
@@ -32,7 +32,7 @@ services:
     container_name: nginx-prod-container-name
     build: src/nginx
     ports:
-      - "127.0.0.1:1050:1050"
+      - "127.0.0.1:${NGINX_PORT}:1050"
     volumes:
       - ./src/staticfiles:/app/staticfiles
       - ./src/media:/app/media
