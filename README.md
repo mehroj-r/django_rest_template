@@ -1,120 +1,154 @@
-# Django REST Framework Template
+# Django REST Template
 
-This is a Django REST API template designed for scalable and secure backend development. It supports both production and development settings, uses JWT for authentication, and includes modular configuration and environment management.
+A production-ready, scalable Django REST API template for rapid backend development. This template features modular app structure, JWT authentication, Docker support, environment-based settings, and best practices for both development and deployment.
 
-## 🔧 Project Structure
+---
+
+## 📦 Project Structure
 
 ```
-config/
-├── api/
-│   └── v1/
-│       ├── __init__.py
-│       ├── apps.py
-│       ├── urls.py
-│       └── views.py
-├── config/
-│   ├── __init__.py
-│   ├── asgi.py
-│   ├── dev_urls.py
-│   ├── urls.py
-│   ├── wsgi.py
-│   └── settings/
-│       ├── __init__.py
-│       ├── base.py
-│       ├── dev.py
-│       └── prod.py
-├── templates/
-├── db.sqlite3
-├── manage.py
-└── requirements.txt
+django_rest_template/
+├── docker-compose.yml / docker-compose.prod.yml   # Docker orchestration (dev/prod)
+├── Dockerfile                                     # App Dockerfile
+├── nginx/                                         # Nginx reverse proxy config
+│   ├── Dockerfile
+│   └── nginx.conf
+├── scripts/                                       # Utility scripts
+│   ├── backup.sh
+│   └── entrypoint.sh
+├── src/
+│   ├── manage.py
+│   ├── apps/                                      # Modular Django apps
+│   │   ├── account/                               # User/account management
+│   │   │   ├── admin/ api/ migrations/ ...
+│   │   ├── core/                                  # Core business logic
+│   │   │   ├── admin/ api/ migrations/ ...
+│   │   ├── url_router.py                          # App URL router
+│   ├── config/                                    # Django project config
+│   │   ├── server/                                # ASGI/WGI entrypoints
+│   │   ├── settings/                              # base.py, dev.py, prod.py
+│   │   ├── urls/                                  # URL configs
+│   │   └── ...
+├── pyproject.toml / uv.lock                       # Python dependencies
+├── logs/                                          # Log files
+└── README.md
 ```
 
-## ⚙️ Settings Overview
+---
 
-### `base.py`
-Contains shared configuration for both development and production, including installed apps, middleware, templates, and DRF setup.
+## 🚀 Features
 
-### `dev.py`
-Overrides `base.py` for local development:
-- PostgreSQL database setup via environment variables.
-- Adds `debug_toolbar` and `django_extensions`.
-- Custom logging to console.
-- JWT configured for 1-day access tokens, 7-day refresh tokens.
+- **Modular App Structure**: Easily extend with new Django apps under `src/apps/`.
+- **JWT Authentication**: Secure endpoints using `rest_framework_simplejwt`.
+- **Environment-based Settings**: Separate configs for development and production.
+- **Dockerized**: Ready-to-use Docker and Nginx setup for local and cloud deployment.
+- **Admin Panel**: Django admin enabled for all registered models.
+- **API Versioning**: Organize endpoints under `/api/v1/` and beyond.
+- **Utility Scripts**: Backup, entrypoint, and other scripts for automation.
+- **Logging**: Centralized log directory for error and access logs.
 
-### `prod.py`
-Overrides `base.py` for production use:
-- SQLite database (can be modified for production DB).
-- Basic `DEBUG=True` (should be set to `False` in real deployment).
-- JWT authentication via `SimpleJWT`.
+---
 
-## 🚀 Getting Started
+## ⚙️ Quickstart
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/mehroj-r/django_rest_template.git
+git clone https://github.com/mehroj-r/django_rest_template
 cd django_rest_template
 ```
 
-### 2. Install Dependencies
+### 2. Local Development (with uv)
 ```bash
 uv sync
+cd src
+python manage.py migrate
+python manage.py createsuperuser  # optional
+python manage.py runserver
 ```
 
-### 3. Set Environment Variables (for `dev.py`)
-Create a `.env` file or set manually:
+### 3. Dockerized Development
 ```bash
-export DB_NAME=your_db
-export DB_USER_NM=your_user
-export DB_USER_PW=your_password
-export DB_IP=127.0.0.1
-export DB_PORT=5432
+docker-compose up --build
 ```
+- App: http://localhost:8000
+- Admin: http://localhost:8000/admin/
 
-### 4. Run the Server
-
-#### Development
+### 4. Production Deployment
+- Edit environment variables and secrets as needed.
+- Use `docker-compose.prod.yml` and production settings:
 ```bash
-DJANGO_SETTINGS_MODULE=config.settings.dev python manage.py runserver
+docker-compose -f docker-compose.prod.yml up --build
 ```
 
-#### Production
-```bash
-DJANGO_SETTINGS_MODULE=config.settings.prod python manage.py runserver
-```
+---
 
 ## 🔐 Authentication
 
-This template uses JWT authentication provided by `rest_framework_simplejwt`. All requests to protected endpoints require a Bearer token.
-
-### Obtain Token
+- Uses JWT (JSON Web Token) via `rest_framework_simplejwt`.
+- Obtain token:
 ```http
-POST /api/token/
+POST /api/v1/token/
 {
-    "username": "your_username",
-    "password": "your_password"
+  "username": "<user>",
+  "password": "<pass>"
 }
 ```
-
-### Refresh Token
+- Refresh token:
 ```http
-POST /api/token/refresh/
+POST /api/v1/token/refresh/
 {
-    "refresh": "your_refresh_token"
+  "refresh": "<refresh_token>"
 }
 ```
+- Use `Authorization: Bearer <access_token>` for protected endpoints.
 
-## 📁 API Versioning
+---
 
-API endpoints are versioned under `/api/v1/`. Add additional versions (e.g., `v2`) in the `api` directory to support future upgrades.
+## 📚 API Structure & Versioning
 
-## 🧪 Testing and Debugging
+- All API endpoints are grouped under `/api/v1/`.
+- Add new versions (e.g., `/api/v2/`) by extending the `apps` and `config/urls` modules.
+- Example endpoints:
+  - `/api/v1/account/` (user management)
+  - `/api/v1/core/` (core business logic)
 
-In development mode, the following tools are available:
-- **Django Debug Toolbar**: Navigate to any page in development to see DB queries, cache usage, etc.
-- **Django Extensions**: Additional management commands (e.g., `runserver_plus`, `shell_plus`).
+---
 
-## 📝 Notes
+## 🛠️ Development Tools
 
-- Default database in production is SQLite — recommended only for prototyping.
-- **Remember to change the `SECRET_KEY` and set `DEBUG=False` in production!**
-- Use a production-ready DB (e.g., PostgreSQL) and configure `ALLOWED_HOSTS`.
+- **Django Debug Toolbar** (dev only)
+- **Django Extensions** (dev only)
+- **Custom Logging**: All logs in `/logs/`
+- **Scripts**: Use `scripts/backup.sh` for DB backups, `scripts/entrypoint.sh` for Docker entrypoint
+
+---
+
+## 📝 Environment Variables
+
+Set these for development/production as needed:
+- `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS`
+- Database: `DB_NAME`, `DB_USER_NM`, `DB_USER_PW`, `DB_IP`, `DB_PORT`
+
+---
+
+## 🧪 Testing
+
+Run tests with:
+```bash
+python manage.py test
+```
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repo & create your branch
+2. Make changes with clear commit messages
+3. Ensure all tests pass
+4. Submit a pull request
+
+---
+
+## 📬 Contact
+
+For questions or support, open an issue or contact the maintainer.
