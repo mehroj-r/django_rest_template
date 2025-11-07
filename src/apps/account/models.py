@@ -11,21 +11,11 @@ from apps.account import managers
 class User(AbstractBaseUser, TimestampedModel, SoftDeleteModel):
 
     first_name = models.CharField(max_length=30, verbose_name=_("First Name"))
-    last_name = models.CharField(
-        max_length=30, verbose_name=_("Last Name"), blank=True, null=True
-    )
-    patronymic = models.CharField(
-        max_length=100, verbose_name=_("Patronymic"), blank=True, null=True
-    )
+    last_name = models.CharField(max_length=30, verbose_name=_("Last Name"), blank=True, null=True)
+    patronymic = models.CharField(max_length=100, verbose_name=_("Patronymic"), blank=True, null=True)
 
     username = models.CharField(max_length=150, unique=True, verbose_name=_("Username"))
-    phone = models.CharField(
-        max_length=15,
-        unique=True,
-        verbose_name=_("Phone Number"),
-        null=True,
-        blank=True,
-    )
+    phone = models.CharField(max_length=15, unique=True, verbose_name=_("Phone Number"), null=True, blank=True)
     email = models.EmailField(unique=True, verbose_name=_("Email"))
 
     USERNAME_FIELD = "username"

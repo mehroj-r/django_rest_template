@@ -1,11 +1,16 @@
 services:
   db:
-    container_name: db-prod-container-name
-    image: postgres:17.5-alpine
+    container_name: db-prod
+    image: postgres:18-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "127.0.0.1:${DB_PORT}:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      start_period: 10s
+      interval: 5s
+      retries: 5
     networks:
       - network-default
     restart: unless-stopped
@@ -13,37 +18,33 @@ services:
       - .env
 
   web:
-    container_name: web-prod-container-name
+    container_name: web-prod
     build: .
     entrypoint: /app/scripts/entrypoint.sh
     volumes:
-      - ./src/staticfiles:/app/staticfiles
-      - ./src/media:/app/media
-      - ./logs:/app/logs
+      - static_data:/app/staticfiles
+      - media_data:/app/media
+    ports:
+        - "127.0.0.1:${APP_PORT}:8000"
+    healthcheck:
+      test: [ "CMD-SHELL", "./scripts/healthcheck.sh" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - network-default
     restart: unless-stopped
     env_file:
       - .env
 
-  nginx:
-    container_name: nginx-prod-container-name
-    build: src/nginx
-    ports:
-      - "127.0.0.1:${NGINX_PORT}:1050"
-    volumes:
-      - ./src/staticfiles:/app/staticfiles
-      - ./src/media:/app/media
-    depends_on:
-      - web
-    networks:
-      - network-default
-    restart: unless-stopped
-
 volumes:
   postgres_data:
+  static_data:
+  media_data:
 
 networks:
   network-default:

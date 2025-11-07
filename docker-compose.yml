@@ -1,7 +1,7 @@
 services:
   db:
     container_name: db-container-name
-    image: postgres:17.5
+    image: postgres:18-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
@@ -15,9 +15,8 @@ services:
     container_name: web-container-name
     entrypoint: /app/scripts/entrypoint.sh
     volumes:
-      - ./src/staticfiles:/app/staticfiles
-      - ./src/media:/app/media
-      - ./logs:/app/logs
+      - static_data:/app/staticfiles
+      - media_data:/app/media
     ports:
       - "8005:8000"
     depends_on:
@@ -28,3 +27,5 @@ services:
 
 volumes:
   postgres_data:
+  static_data:
+  media_data:

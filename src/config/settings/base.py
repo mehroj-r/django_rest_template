@@ -103,7 +103,6 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-LOGS_ROOT = BASE_DIR.parent / "logs"
 
 # Logging
 LOGGING = {
@@ -116,12 +115,6 @@ LOGGING = {
         "simple": {"format": "%(levelname)s: %(message)s"},
     },
     "handlers": {
-        "file": {
-            "level": "DEBUG",
-            "class": "logging.FileHandler",
-            "filename": LOGS_ROOT / f"django-{timezone.now().date()}.log",
-            "formatter": "detailed",
-        },
         "console": {
             "level": "INFO",
             "class": "logging.StreamHandler",
@@ -130,20 +123,17 @@ LOGGING = {
     },
     "loggers": {
         "django": {
-            "handlers": ["file", "console"],
+            "handlers": ["console"],
             "level": "INFO",
             "propagate": True,
         },
         "apps": {
-            "handlers": ["file", "console"],
+            "handlers": ["console"],
             "level": "INFO",
             "propagate": True,
         },
     },
 }
-
-if not os.path.exists(LOGS_ROOT):
-    os.makedirs(LOGS_ROOT)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 

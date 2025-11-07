@@ -15,21 +15,15 @@ from apps.core.utils.deletion import SOFT_DELETE_CASCADE
 
 
 class TimestampedModel(models.Model):
-    created_at = models.DateTimeField(
-        auto_now_add=True, db_index=True, verbose_name=_("Created At")
-    )
-    updated_at = models.DateTimeField(
-        auto_now=True, db_index=True, verbose_name=_("Updated At")
-    )
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name=_("Created At"))
+    updated_at = models.DateTimeField(auto_now=True, db_index=True, verbose_name=_("Updated At"))
 
     class Meta:
         abstract = True
 
 
 class SoftDeleteModel(models.Model):
-    deleted_at = models.DateTimeField(
-        null=True, blank=True, db_index=True, verbose_name=_("Deleted At")
-    )
+    deleted_at = models.DateTimeField(null=True, blank=True, db_index=True, verbose_name=_("Deleted At"))
 
     objects = SoftDeleteManager()
     all_objects = models.Manager()
@@ -47,9 +41,7 @@ class SoftDeleteModel(models.Model):
         self.deleted_at = timezone.now()
         self.save(update_fields=["deleted_at"])
 
-    def hard_delete(
-        self, using: Optional[str] = None, keep_parents: bool = False
-    ) -> None:
+    def hard_delete(self, using: Optional[str] = None, keep_parents: bool = False) -> None:
         """
         Permanently delete the object from the database.
         """
@@ -65,9 +57,7 @@ class SoftDeleteModel(models.Model):
     class Meta:
         abstract = True
 
-    def _perform_on_delete(
-        self, using: Optional[str] = None, keep_parents: bool = False
-    ) -> None:
+    def _perform_on_delete(self, using: Optional[str] = None, keep_parents: bool = False) -> None:
         """
         Manually trigger relation field on_delete actions when soft deleting.
 
@@ -104,10 +94,7 @@ class SoftDeleteModel(models.Model):
                     updates = []
                     objs = []
                     for instances in instances_list:
-                        if (
-                            isinstance(instances, QuerySet)
-                            and instances._result_cache is None
-                        ):
+                        if isinstance(instances, QuerySet) and instances._result_cache is None:
                             updates.append(instances)
                         else:
                             objs.extend(instances)

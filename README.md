@@ -10,9 +10,6 @@ A production-ready, scalable Django REST API template for rapid backend developm
 django_rest_template/
 ├── docker-compose.yml / docker-compose.prod.yml   # Docker orchestration (dev/prod)
 ├── Dockerfile                                     # App Dockerfile
-├── nginx/                                         # Nginx reverse proxy config
-│   ├── Dockerfile
-│   └── nginx.conf
 ├── scripts/                                       # Utility scripts
 │   ├── backup.sh
 │   └── entrypoint.sh

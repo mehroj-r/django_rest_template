@@ -1,39 +1,40 @@
-ARG PYTHON_VERSION=3.13.3
-
 # ---- Stage 1: Builder ----
-FROM python:${PYTHON_VERSION}-alpine AS builder
+FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim AS builder
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
-
-RUN apk update
-
-WORKDIR /app_build
-
-RUN pip install --no-cache-dir --upgrade pip setuptools wheel
-
-COPY pyproject.toml uv.lock ./
-
-RUN pip install --no-cache-dir --prefix=/python_deps .
-
-COPY . .
-
-# ---- Stage 2: Final runtime image ----
-FROM python:${PYTHON_VERSION}-alpine AS base
-
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    APP_PORT=8000
-
-ENV PYTHONPATH=/app:/python_deps/lib/python3.13/site-packages
-ENV PATH=/python_deps/bin:$PATH
-
-RUN apk update
+ENV UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
+    UV_PYTHON_DOWNLOADS=0 \
+    VIRTUAL_ENV=/app/.venv \
+    PATH="/app/.venv/bin:$PATH"
 
 WORKDIR /app
 
-COPY --from=builder /python_deps /python_deps
-COPY --from=builder /app_build/src ./
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --locked --no-install-project --no-dev
 
-EXPOSE $APP_PORT
-RUN chmod +x ./scripts/entrypoint.sh
+# ---- Stage 2: Final runtime image ----
+FROM python:3.13-slim-bookworm AS final
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    VIRTUAL_ENV=/app/.venv \
+    PATH="/app/.venv/bin:$PATH"
+
+RUN groupadd --system --gid 999 nonroot \
+    && useradd --system --gid 999 --uid 999 --create-home nonroot
+
+WORKDIR /app
+
+COPY --from=builder --chown=nonroot:nonroot /app /app
+COPY --chown=nonroot:nonroot ./src /app
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/* \
+    && chmod +x /app/scripts/*.sh \
+    && mkdir -p /app/staticfiles /app/media \
+    && chown -R nonroot:nonroot /app/staticfiles /app/media
+
+USER nonroot

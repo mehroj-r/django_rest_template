@@ -11,10 +11,7 @@ dependencies = [
     "cffi>=1.17.1",
     "dj-database-url>=3.0.1",
     "django>=5.2.4",
-    "django-debug-toolbar>=6.0.0",
-    "django-extensions>=4.1",
     "django-filter>=25.1",
-    "django-query-counter>=0.4.1",
     "django-unfold>=0.63.0",
     "djangorestframework>=3.16.0",
     "djangorestframework-simplejwt[crypto]>=5.5.1",
@@ -25,4 +22,13 @@ dependencies = [
     "python-decouple>=3.8",
     "sentry-sdk>=2.34.1",
     "sqlparse>=0.5.3",
+    "uvicorn>=0.37.0",
+]
+
+[dependency-groups]
+dev = [
+    "black>=25.9.0",
+    "django-debug-toolbar>=6.0.0",
+    "django-extensions>=4.1",
+    "django-query-counter>=0.4.1",
 ]
