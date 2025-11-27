@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from apps.account.models import User
-from apps.core.admin import BaseModelAdmin
+from account.models import User
+from core.admin import BaseModelAdmin
 
 
 @admin.register(User)

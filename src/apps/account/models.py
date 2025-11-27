@@ -2,10 +2,10 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from apps.core.models import TimestampedModel, SoftDeleteModel
+from core.models import TimestampedModel, SoftDeleteModel
 from django.contrib.auth.hashers import make_password
 
-from apps.account import managers
+from account import managers
 
 
 class User(AbstractBaseUser, TimestampedModel, SoftDeleteModel):

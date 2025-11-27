@@ -10,8 +10,8 @@ from django.db.models.sql.subqueries import UpdateQuery
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 
-from apps.core.managers import SoftDeleteManager
-from apps.core.utils.deletion import SOFT_DELETE_CASCADE
+from core.managers import SoftDeleteManager
+from core.utils.deletion import SOFT_DELETE_CASCADE
 
 
 class BaseModel(models.Model):

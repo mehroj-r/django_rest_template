@@ -36,8 +36,8 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    "apps.account",
-    "apps.core",
+    "account",
+    "core",
 ]
 
 INSTALLED_APPS = UNFOLD_APPS + DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -143,7 +143,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,
-    "EXCEPTION_HANDLER": "apps.core.api.exceptions.custom_exception_handler",  # noqa
+    "EXCEPTION_HANDLER": "core.api.exceptions.custom_exception_handler",  # noqa
 }
 
 AUTH_USER_MODEL = "account.User"  # noqa

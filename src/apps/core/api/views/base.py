@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from django.utils.translation import gettext_lazy as _
 from logging import getLogger
 
-from apps.core.utils.pagination import CustomPagination
+from core.utils.pagination import CustomPagination
 
 logger = getLogger(__name__)
 

@@ -5,7 +5,7 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 
-from apps.core.api.views.base import BaseAPIView
+from core.api.views.base import BaseAPIView
 
 
 class LoginAPIView(TokenObtainPairView, BaseAPIView):
