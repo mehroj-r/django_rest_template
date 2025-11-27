@@ -1,6 +1,6 @@
 from django.urls import path
 
-from apps.core.api.views import HealthAPIView
+from apps.core.api.views.misc import HealthAPIView
 
 app_name = "health"
 

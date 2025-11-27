@@ -1,14 +1,11 @@
-from django.urls import path, include
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-    TokenVerifyView,
-)
+from django.urls import path
+
+from apps.core.api.views.auth import LoginAPIView, RefreshAPIView, TokenVerifyAPIView
 
 app_name = "auth"
 
 urlpatterns = [
-    path("login/", TokenObtainPairView.as_view(), name="login"),
-    path("refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("verify/", TokenVerifyView.as_view(), name="token_verify"),
+    path("login/", LoginAPIView.as_view(), name="login"),
+    path("refresh/", RefreshAPIView.as_view(), name="token_refresh"),
+    path("verify/", TokenVerifyAPIView.as_view(), name="token_verify"),
 ]

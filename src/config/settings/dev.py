@@ -4,7 +4,11 @@ from .base import *
 
 
 if DEBUG:
-    INSTALLED_APPS += ["debug_toolbar", "django_extensions", "query_counter"]
+    INSTALLED_APPS += [
+        "debug_toolbar",
+        "django_extensions",
+        "query_counter",
+    ]
 
     MIDDLEWARE += [
         "debug_toolbar.middleware.DebugToolbarMiddleware",

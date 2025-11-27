@@ -1,14 +1,12 @@
-import os
 from pathlib import Path
 from decouple import config
 import dj_database_url
-from django.utils import timezone
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 DEBUG = config("DEBUG", default=False, cast=bool)
 SECRET_KEY = config("DJANGO_SECRET_KEY", default="django-insecure-change-me")
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="").split(",")
-DATABASE_URL = f"postgres://{config("POSTGRES_USER")}:{config("POSTGRES_PASSWORD")}@{config("POSTGRES_HOST")}/{config("POSTGRES_DB")}"
+DATABASE_URL = f"postgres://{config('POSTGRES_USER')}:{config('POSTGRES_PASSWORD')}@{config('POSTGRES_HOST')}/{config('POSTGRES_DB')}"
 
 UNFOLD_APPS = [
     "unfold",
@@ -34,6 +32,7 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
+    "corsheaders",
 ]
 
 LOCAL_APPS = [
@@ -44,6 +43,7 @@ LOCAL_APPS = [
 INSTALLED_APPS = UNFOLD_APPS + DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -102,16 +102,17 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
+MEDIA_URL = "media/"
+
+STATIC_ROOT = BASE_DIR.parent / "cdn/static"
+MEDIA_ROOT = BASE_DIR.parent / "cdn/media"
 
 # Logging
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
-        "detailed": {
-            "format": "[%(asctime)s] %(levelname)s in %(module)s: %(message)s"
-        },
+        "detailed": {"format": "[%(asctime)s] %(levelname)s in %(module)s: %(message)s"},
         "simple": {"format": "%(levelname)s: %(message)s"},
     },
     "handlers": {
@@ -138,9 +139,11 @@ LOGGING = {
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    )
+    "DEFAULT_AUTHENTICATION_CLASSES": ["rest_framework_simplejwt.authentication.JWTAuthentication"],
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
+    "EXCEPTION_HANDLER": "apps.core.api.exceptions.custom_exception_handler",  # noqa
 }
 
 AUTH_USER_MODEL = "account.User"  # noqa
@@ -150,11 +153,11 @@ UNFOLD = {
     "SITE_TITLE": "DJANGO REST Template",
     "SITE_HEADER": "DJANGO REST Template",
     "SITE_SUBHEADER": lambda request: (
-        request.user.get_navigation_title()
-        if request.user.is_authenticated
-        else "Unknown User"
+        request.user.get_navigation_title() if request.user.is_authenticated else "Unknown User"
     ),
     "SIDEBAR": {
         "show_search": False,
     },
 }
+
+CORS_URLS_REGEX = r"^/api/.*$"

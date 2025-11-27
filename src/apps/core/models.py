@@ -14,7 +14,14 @@ from apps.core.managers import SoftDeleteManager
 from apps.core.utils.deletion import SOFT_DELETE_CASCADE
 
 
-class TimestampedModel(models.Model):
+class BaseModel(models.Model):
+    objects = models.Manager()
+
+    class Meta:
+        abstract = True
+
+
+class TimestampedModel(BaseModel):
     created_at = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name=_("Created At"))
     updated_at = models.DateTimeField(auto_now=True, db_index=True, verbose_name=_("Updated At"))
 
@@ -22,7 +29,7 @@ class TimestampedModel(models.Model):
         abstract = True
 
 
-class SoftDeleteModel(models.Model):
+class SoftDeleteModel(BaseModel):
     deleted_at = models.DateTimeField(null=True, blank=True, db_index=True, verbose_name=_("Deleted At"))
 
     objects = SoftDeleteManager()

@@ -183,3 +183,4 @@ docker-compose.override.yml
 *.tar
 *.gz
 
+/cdn/
