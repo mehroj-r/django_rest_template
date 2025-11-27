@@ -1,6 +1,6 @@
 from django.urls import path
 
-from core.api.views.auth import LoginAPIView, RefreshAPIView, TokenVerifyAPIView
+from api.v1.core.views.auth import LoginAPIView, RefreshAPIView, TokenVerifyAPIView
 
 app_name = "auth"
 

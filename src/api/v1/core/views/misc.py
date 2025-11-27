@@ -7,4 +7,3 @@ class HealthAPIView(generics.RetrieveAPIView):
 
     def retrieve(self, request, *args, **kwargs):
         return Response(data={"status": "ok"}, status=200)
-
