@@ -1,0 +1,38 @@
+name: Deploy (Development)
+
+on:
+  push:
+    branches: [development]
+  repository_dispatch:
+    types: [trigger-deploy]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      APP_DIR: ${{ secrets.APP_DIR }}
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USERNAME }}
+      DEPLOY_BRANCH: ${{ secrets.DEPLOY_BRANCH || 'development' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ env.SSH_HOST }}
+          username: ${{ env.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+
+            cd $APP_DIR
+            git fetch origin
+            git checkout $DEPLOY_BRANCH
+            git pull origin $DEPLOY_BRANCH
+
+            docker compose down --volumes=false
+            docker compose up -d --build
