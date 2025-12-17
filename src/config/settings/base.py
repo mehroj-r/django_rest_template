@@ -1,6 +1,7 @@
 from pathlib import Path
 from decouple import config
 import dj_database_url
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 DEBUG = config("DEBUG", default=False, cast=bool)
@@ -108,30 +109,128 @@ STATIC_ROOT = BASE_DIR.parent / "cdn/static"
 MEDIA_ROOT = BASE_DIR.parent / "cdn/media"
 
 # Logging
+TELEGRAM_BOT_TOKEN = config("TELEGRAM_BOT_TOKEN", default="")
+TELEGRAM_CHAT_ID = config("TELEGRAM_CHAT_ID", default="")
+
+# Ensure logs directory exists
+if not os.path.exists(BASE_DIR.parent / "logs"):
+    os.makedirs(BASE_DIR.parent / "logs")
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
+    "filters": {
+        "request_context": {
+            "()": "core.utils.logging.RequestContextFilter",
+        },
+    },
     "formatters": {
-        "detailed": {"format": "[%(asctime)s] %(levelname)s in %(module)s: %(message)s"},
-        "simple": {"format": "%(levelname)s: %(message)s"},
+        "colored": {
+            "()": "colorlog.ColoredFormatter",
+            "format": (
+                "%(log_color)s[%(asctime)s] [%(levelname)s] "
+                "%(name)s:%(module)s:%(filename)s:%(lineno)d "
+                "%(funcName)s | %(message)s"
+            ),
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+            "log_colors": {
+                "DEBUG": "white",
+                "INFO": "green",
+                "WARNING": "yellow",
+                "ERROR": "red",
+                "CRITICAL": "bold_red",
+            },
+        },
+        "verbose": {
+            "format": (
+                "[%(asctime)s] [%(levelname)s] "
+                "%(name)s:%(module)s:%(filename)s:%(lineno)d "
+                "%(funcName)s | %(message)s"
+            ),
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        },
+        "telegram": {
+            "format": (
+                "*🚨 Django Error Alert (500)*\n"
+                "*Level:* %(levelname)s\n"
+                "*Message:* %(message)s\n\n"
+                "*Module:* `%(module)s:%(filename)s:%(lineno)d`\n"
+                "*Function:* `%(funcName)s`\n\n"
+                "*User:* %(user)s\n"
+                "*Method:* %(method)s\n"
+                "*Path:* %(path)s\n"
+                "*IP:* %(ip)s\n\n"
+                "*Traceback:*\n```\n%(traceback)s\n```"
+            )
+        },
     },
     "handlers": {
+        # Console
         "console": {
             "level": "INFO",
             "class": "logging.StreamHandler",
-            "formatter": "simple",
+            "formatter": "colored",
+        },
+        # Main app log (rotating)
+        "app_file": {
+            "level": "INFO",
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "filename": "../logs/app.log",
+            "when": "midnight",
+            "backupCount": 30,
+            "formatter": "verbose",
+        },
+        # Error log (rotating)
+        "error_file": {
+            "level": "ERROR",
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "filename": "../logs/error.log",
+            "when": "midnight",
+            "backupCount": 60,
+            "formatter": "verbose",
+        },
+        # Slow queries
+        "slow_queries_file": {
+            "level": "WARNING",
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "filename": "../logs/slow_queries.log",
+            "when": "midnight",
+            "backupCount": 30,
+            "formatter": "verbose",
+        },
+        # Telegram alerts
+        "telegram_errors": {
+            "level": "ERROR",
+            "class": "core.utils.logging.TelegramErrorHandler",
+            "bot_token": TELEGRAM_BOT_TOKEN,
+            "chat_id": TELEGRAM_CHAT_ID,
+            "filters": ["request_context"],
+            "formatter": "telegram",
         },
     },
     "loggers": {
+        # Django internal logs
         "django": {
-            "handlers": ["console"],
+            "handlers": ["app_file", "console"],
             "level": "INFO",
-            "propagate": True,
+            "propagate": False,
         },
-        "apps": {
-            "handlers": ["console"],
+        # Django request errors → TELEGRAM!
+        "django.request": {
+            "handlers": ["telegram_errors", "error_file"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+        # Slow queries
+        "django.db.backends": {
+            "handlers": ["slow_queries_file"],
+            "level": "WARNING",
+            "propagate": False,
+        },
+        # Universal logger (entire project)
+        "": {
+            "handlers": ["app_file", "console"],
             "level": "INFO",
-            "propagate": True,
         },
     },
 }
@@ -141,7 +240,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": ["rest_framework_simplejwt.authentication.JWTAuthentication"],
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_PAGINATION_CLASS": "core.utils.pagination.CustomPagination",
     "PAGE_SIZE": 10,
     "EXCEPTION_HANDLER": "core.api.exceptions.custom_exception_handler",  # noqa
 }
