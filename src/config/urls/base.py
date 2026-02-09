@@ -6,6 +6,7 @@ from django.conf import settings
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("api.url_router"), name="url_router"),
+    path("bot/", include("bot.webhook.urls", namespace="bot_webhook")),
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
     *static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
 ]

@@ -2,6 +2,8 @@ import os
 from datetime import timedelta
 from .base import *
 
+BOT_MODE = "polling"
+
 
 if DEBUG:
     INSTALLED_APPS += [

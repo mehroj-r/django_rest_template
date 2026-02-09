@@ -1,6 +1,6 @@
 # Django REST Template
 
-A production-ready, scalable Django REST API template for rapid backend development. This template features modular app structure, JWT authentication, Docker support, environment-based settings, and best practices for both development and deployment.
+A production-ready, scalable Django REST API template for rapid backend development. This template includes modular DRF architecture and full async Telegram bot support with aiogram (polling for local development, webhook for production).
 
 ---
 
@@ -41,6 +41,7 @@ django_rest_template/
 - **Dockerized**: Ready-to-use Docker and Nginx setup for local and cloud deployment.
 - **Admin Panel**: Django admin enabled for all registered models.
 - **API Versioning**: Organize endpoints under `/api/v1/` and beyond.
+- **Async Telegram Bot (aiogram)**: Full bot module with middlewares, dependency injection, i18n tooling, polling, and webhook support.
 - **Utility Scripts**: Backup, entrypoint, and other scripts for automation.
 - **Logging**: Centralized log directory for error and access logs.
 
@@ -67,10 +68,35 @@ python manage.py runserver
 ```bash
 docker-compose up --build
 ```
-- App: http://localhost:8000
-- Admin: http://localhost:8000/admin/
+- App: http://localhost:8005
+- Admin: http://localhost:8005/admin/
 
-### 4. Production Deployment
+### 4. Run Telegram Bot (Polling for dev)
+```bash
+cd src
+python manage.py runserver
+```
+
+In a second terminal:
+
+```bash
+cd src
+python manage.py runbot
+```
+
+### 5. Configure Telegram Bot Webhook (prod)
+```bash
+cd src
+python manage.py botwebhook set
+```
+Remove webhook:
+```bash
+python manage.py botwebhook delete
+```
+
+Webhook endpoint: `/bot/webhook/`
+
+### 6. Production Deployment
 - Edit environment variables and secrets as needed.
 - Use `docker-compose.prod.yml` and production settings:
 ```bash
@@ -125,6 +151,38 @@ POST /api/v1/token/refresh/
 Set these for development/production as needed:
 - `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS`
 - Database: `DB_NAME`, `DB_USER_NM`, `DB_USER_PW`, `DB_IP`, `DB_PORT`
+- Bot: `BOT_TOKEN`, `BOT_MODE`, `BOT_WEBHOOK_BASE_URL`, `BOT_WEBHOOK_PATH`, `BOT_WEBHOOK_SECRET`, `BOT_PARSE_MODE`, `BOT_DEFAULT_LOCALE`, `BOT_FALLBACK_LOCALE`
+
+---
+
+## 🤖 aiogram Bot Support
+
+- Bot package: `src/bot/`
+- Polling worker command: `python manage.py runbot`
+- Webhook endpoint: `/bot/webhook/`
+- Webhook management command: `python manage.py botwebhook set|delete`
+- Local mode is polling (`src/config/settings/dev.py`)
+- Production mode is webhook (`src/config/settings/prod.py`)
+- Docker entrypoint configures webhook before starting ASGI server
+
+---
+
+## 🌍 Bot Translations
+
+Bot locales live in `src/bot/etc/locales` and use GNU gettext (`.po`/`.mo`).
+
+```bash
+cd src
+python manage.py boti18n extract
+python manage.py boti18n update
+python manage.py boti18n compile
+```
+
+Create a new locale:
+
+```bash
+python manage.py boti18n init --locale uz
+```
 
 ---
 
