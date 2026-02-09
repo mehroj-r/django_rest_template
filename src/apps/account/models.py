@@ -3,7 +3,6 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from core.models import TimestampedModel, SoftDeleteModel
-from django.contrib.auth.hashers import make_password
 
 from account import managers
 
@@ -18,13 +17,13 @@ class User(AbstractBaseUser, TimestampedModel, SoftDeleteModel):
     phone = models.CharField(max_length=15, unique=True, verbose_name=_("Phone Number"), null=True, blank=True)
     email = models.EmailField(unique=True, verbose_name=_("Email"))
 
-    USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["first_name", "email"]
-
     # For Django Admin
     is_staff = models.BooleanField(default=False, verbose_name=_("Is staff"))
     is_superuser = models.BooleanField(default=False, verbose_name=_("Is superuser"))
     is_active = models.BooleanField(default=True, verbose_name=_("Is active"))
+
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["first_name", "email"]
 
     objects = managers.UserManager()
 
@@ -45,6 +44,7 @@ class User(AbstractBaseUser, TimestampedModel, SoftDeleteModel):
         return self.is_superuser
 
     def save(self, *args, **kwargs):
+        from django.contrib.auth.hashers import make_password
 
         if self.password and not self.password.startswith("pbkdf2_sha256$"):
             self.password = make_password(self.password)  # Hash the password

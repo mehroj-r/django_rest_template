@@ -3,7 +3,7 @@ name = "django-rest-template"
 version = "0.1.0"
 description = "Django REST API template with essential features and best practices."
 authors = [
-    { name = "Mehroj Majidov", email = "mekrojmajidov@gmail.com" }
+    { name = "MEHROJ", email = "mekrojmajidov@gmail.com" }
 ]
 readme = "README.md"
 requires-python = ">=3.13"
