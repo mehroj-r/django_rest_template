@@ -101,6 +101,7 @@ LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
+LOCALE_PATHS = [BASE_DIR / "locales"]
 
 STATIC_URL = "static/"
 MEDIA_URL = "media/"
@@ -109,12 +110,11 @@ STATIC_ROOT = BASE_DIR.parent / "cdn/static"
 MEDIA_ROOT = BASE_DIR.parent / "cdn/media"
 
 # Logging
-TELEGRAM_BOT_TOKEN = config("TELEGRAM_BOT_TOKEN", default="")
-TELEGRAM_CHAT_ID = config("TELEGRAM_CHAT_ID", default="")
+LOGGING_TELEGRAM_BOT_TOKEN = config("LOGGING_TELEGRAM_BOT_TOKEN", default="")
+LOGGING_TELEGRAM_CHAT_ID = config("LOGGING_TELEGRAM_CHAT_ID", default="")
 
 # Ensure logs directory exists
-if not os.path.exists(BASE_DIR.parent / "logs"):
-    os.makedirs(BASE_DIR.parent / "logs")
+os.makedirs(BASE_DIR.parent / "logs", exist_ok=True)
 
 LOGGING = {
     "version": 1,
@@ -202,8 +202,8 @@ LOGGING = {
         "telegram_errors": {
             "level": "ERROR",
             "class": "core.utils.logging.TelegramErrorHandler",
-            "bot_token": TELEGRAM_BOT_TOKEN,
-            "chat_id": TELEGRAM_CHAT_ID,
+            "bot_token": LOGGING_TELEGRAM_BOT_TOKEN,
+            "chat_id": LOGGING_TELEGRAM_CHAT_ID,
             "filters": ["request_context"],
             "formatter": "telegram",
         },
