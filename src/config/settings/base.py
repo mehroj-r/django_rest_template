@@ -103,7 +103,7 @@ LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
-LOCALE_PATHS = [BASE_DIR / "bot" / "locales"]
+LOCALE_PATHS = [BASE_DIR / "locales"]
 
 STATIC_URL = "static/"
 MEDIA_URL = "media/"
@@ -115,6 +115,7 @@ MEDIA_ROOT = BASE_DIR.parent / "cdn/media"
 TELEGRAM_BOT_TOKEN = config("TELEGRAM_BOT_TOKEN", default="")
 TELEGRAM_CHAT_ID = config("TELEGRAM_CHAT_ID", default="")
 
+# Telegram Bot
 BOT_TOKEN = config("BOT_TOKEN", default="")
 BOT_MODE = config("BOT_MODE", default="polling")
 BOT_WEBHOOK_BASE_URL = config("BOT_WEBHOOK_BASE_URL", default="")
@@ -123,7 +124,6 @@ BOT_WEBHOOK_SECRET = config("BOT_WEBHOOK_SECRET", default="")
 BOT_PARSE_MODE = config("BOT_PARSE_MODE", default="HTML")
 BOT_DEFAULT_LOCALE = config("BOT_DEFAULT_LOCALE", default="en")
 BOT_FALLBACK_LOCALE = config("BOT_FALLBACK_LOCALE", default="en")
-BOT_LOCALES_PATH = BASE_DIR / "bot" / "etc" / "locales"
 
 # Ensure logs directory exists
 if not os.path.exists(BASE_DIR.parent / "logs"):

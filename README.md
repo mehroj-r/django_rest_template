@@ -1,4 +1,4 @@
-# Django REST Template
+# Django REST Template + AIOGRAM
 
 A production-ready, scalable Django REST API template for rapid backend development. This template includes modular DRF architecture and full async Telegram bot support with aiogram (polling for local development, webhook for production).
 
