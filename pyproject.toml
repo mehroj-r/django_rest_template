@@ -1,9 +1,9 @@
 [project]
-name = "django-rest-template"
+name = "drf-boilerplate"
 version = "0.1.0"
 description = "Django REST API template with essential features and best practices."
 authors = [
-    { name = "MEHROJ", email = "mekrojmajidov@gmail.com" }
+    { name = "Full Name", email = "dev@email.com" }
 ]
 readme = "README.md"
 requires-python = ">=3.13"
