@@ -112,6 +112,7 @@ MEDIA_ROOT = BASE_DIR.parent / "cdn/media"
 # Logging
 LOGGING_TELEGRAM_BOT_TOKEN = config("LOGGING_TELEGRAM_BOT_TOKEN", default="")
 LOGGING_TELEGRAM_CHAT_ID = config("LOGGING_TELEGRAM_CHAT_ID", default="")
+PROJECT_NAME = config("PROJECT_NAME", default="{{ cookiecutter.project_name }}")
 
 # Ensure logs directory exists
 os.makedirs(BASE_DIR.parent / "logs", exist_ok=True)
@@ -238,7 +239,9 @@ LOGGING = {
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": ["rest_framework_simplejwt.authentication.JWTAuthentication"],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication"
+    ],
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
     "DEFAULT_PAGINATION_CLASS": "core.utils.pagination.CustomPagination",
     "PAGE_SIZE": 10,
@@ -249,10 +252,12 @@ AUTH_USER_MODEL = "account.User"  # noqa
 
 UNFOLD = {
     "SITE_URL": "/admin/",
-    "SITE_TITLE": "DJANGO REST Template",
-    "SITE_HEADER": "DJANGO REST Template",
+    "SITE_TITLE": PROJECT_NAME,
+    "SITE_HEADER": PROJECT_NAME,
     "SITE_SUBHEADER": lambda request: (
-        request.user.get_navigation_title() if request.user.is_authenticated else "Unknown User"
+        request.user.get_navigation_title()
+        if request.user.is_authenticated
+        else "Unknown User"
     ),
     "SIDEBAR": {
         "show_search": False,

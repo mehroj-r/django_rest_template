@@ -1,5 +1,5 @@
 [project]
-name = "drf-boilerplate"
+name = "{{ cookiecutter.distribution_name }}"
 version = "0.1.0"
 description = "Django REST API template with essential features and best practices."
 authors = [

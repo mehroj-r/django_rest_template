@@ -1,0 +1,10 @@
+{
+  "project_name": "Django REST Template",
+  "project_slug": "django_rest_template",
+  "distribution_name": "{{ cookiecutter.project_slug|replace('_', '-') }}",
+  "docker_name_prefix": "{{ cookiecutter.project_slug|replace('_', '-') }}",
+  "github_username": "your-github-username",
+  "_copy_without_render": [
+    ".github/workflows/*.yml"
+  ]
+}

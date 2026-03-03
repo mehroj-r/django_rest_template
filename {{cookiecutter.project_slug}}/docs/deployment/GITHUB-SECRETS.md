@@ -18,7 +18,7 @@ Required secrets for the development deployment workflow:
 
 | Secret Name | Description                                         | Example                            |
 |---|-----------------------------------------------------|------------------------------------|
-| `LOCATION` | Project directory on the server                     | `/opt/projects/django_boilerplate` |
+| `LOCATION` | Project directory on the server                     | `/opt/projects/{{ cookiecutter.project_slug }}` |
 | `SSH_HOST` | Hostname or IP address of the server                | `example.com` or `192.168.1.100`   |
 | `SSH_USERNAME` | SSH username for authentication on the dev server   | `deploy` or `devops`               |
 | `SSH_PRIVATE_KEY` | SSH private key for passwordless authentication     | ED25519/RSA private key            |
@@ -32,10 +32,10 @@ Required secrets for the production deployment workflow:
 
 | Secret Name | Description | Example                                    |
 |---|---|--------------------------------------------|
-| `CONTAINER_NAME` | Docker container name/image name | `django-boilerplate`                       |
+| `CONTAINER_NAME` | Docker container name/image name | `{{ cookiecutter.docker_name_prefix }}`                       |
 | `SSH_USER` | SSH username for authentication on the prod server | `deploy` or `devops`                       |
 | `SSH_HOST` | Hostname or IP address of the production server | `example.com` or `prod.example.com`    |
-| `LOCATION` | Project directory on the server | `/home/deploy/projects/django_boilerplate` |
+| `LOCATION` | Project directory on the server | `/home/deploy/projects/{{ cookiecutter.project_slug }}` |
 | `SSH_PRIVATE_KEY` | SSH private key for passwordless authentication | (ED25519 or RSA private key content)       |
 
 ---
@@ -59,4 +59,3 @@ Required secrets for the production deployment workflow:
    ```bash
    cat ~/.ssh/github_deploy
    ```
-

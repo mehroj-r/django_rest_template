@@ -1,6 +1,6 @@
 services:
   db:
-    container_name: db-dev
+    container_name: "{{ cookiecutter.docker_name_prefix }}-db-dev"
     image: postgres:18-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data
@@ -12,7 +12,7 @@ services:
 
   web:
     build: .
-    container_name: web-dev
+    container_name: "{{ cookiecutter.docker_name_prefix }}-web-dev"
     entrypoint: /app/scripts/entrypoint.sh
     volumes:
      - app_data:/app/cdn
