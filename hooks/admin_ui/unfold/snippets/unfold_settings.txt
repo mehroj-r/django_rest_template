@@ -1,0 +1,13 @@
+UNFOLD = {
+    "SITE_URL": "/admin/",
+    "SITE_TITLE": PROJECT_NAME,
+    "SITE_HEADER": PROJECT_NAME,
+    "SITE_SUBHEADER": lambda request: (
+        request.user.get_navigation_title()
+        if request.user.is_authenticated
+        else "Unknown User"
+    ),
+    "SIDEBAR": {
+        "show_search": False,
+    },
+}

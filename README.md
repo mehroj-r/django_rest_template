@@ -19,3 +19,4 @@ Key naming prompts in this first iteration:
 - `distribution_name`
 - `docker_name_prefix`
 - `github_username`
+- `admin_ui` (`default` or `django-unfold`)

@@ -1,4 +1,4 @@
-from unfold.admin import ModelAdmin
+from django.contrib.admin import ModelAdmin
 
 
 class BaseModelAdmin(ModelAdmin): ...

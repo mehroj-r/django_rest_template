@@ -9,17 +9,7 @@ SECRET_KEY = config("DJANGO_SECRET_KEY", default="django-insecure-change-me")
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="").split(",")
 DATABASE_URL = f"postgres://{config('POSTGRES_USER')}:{config('POSTGRES_PASSWORD')}@{config('POSTGRES_HOST')}/{config('POSTGRES_DB')}"
 
-UNFOLD_APPS = [
-    "unfold",
-    "unfold.contrib.filters",
-    "unfold.contrib.forms",
-    "unfold.contrib.inlines",
-    "unfold.contrib.import_export",
-    "unfold.contrib.guardian",
-    "unfold.contrib.simple_history",
-    "unfold.contrib.location_field",
-    # 'unfold.contrib.constance',
-]
+UNFOLD_APPS = []
 
 DJANGO_APPS = [
     "django.contrib.admin",
@@ -249,19 +239,5 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = "account.User"  # noqa
-
-UNFOLD = {
-    "SITE_URL": "/admin/",
-    "SITE_TITLE": PROJECT_NAME,
-    "SITE_HEADER": PROJECT_NAME,
-    "SITE_SUBHEADER": lambda request: (
-        request.user.get_navigation_title()
-        if request.user.is_authenticated
-        else "Unknown User"
-    ),
-    "SIDEBAR": {
-        "show_search": False,
-    },
-}
 
 CORS_URLS_REGEX = r"^/api/.*$"

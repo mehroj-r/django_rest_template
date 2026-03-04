@@ -4,6 +4,10 @@
   "distribution_name": "{{ cookiecutter.project_slug|replace('_', '-') }}",
   "docker_name_prefix": "{{ cookiecutter.project_slug|replace('_', '-') }}",
   "github_username": "your-github-username",
+  "admin_ui": [
+    "default",
+    "django-unfold"
+  ],
   "_copy_without_render": [
     ".github/workflows/*.yml"
   ]
