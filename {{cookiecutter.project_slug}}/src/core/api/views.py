@@ -11,7 +11,6 @@ logger = getLogger(__name__)
 
 
 class PaginatedListMixin:
-
     pagination_class = CustomPagination
 
     def list(self, request, *args, **kwargs):
@@ -48,9 +47,20 @@ class CustomResponseMixin:
 
     SUCCESS_MESSAGE = "OK"
     ERROR_MESSAGE = "NOT OK"
+    NO_BODY_STATUS_CODES = {
+        status.HTTP_204_NO_CONTENT,
+        status.HTTP_205_RESET_CONTENT,
+        status.HTTP_304_NOT_MODIFIED,
+    }
 
     def finalize_response(self, request, response, *args, **kwargs):
         response = super().finalize_response(request, response, *args, **kwargs)  # noqa
+
+        if not isinstance(response, Response):
+            return response
+
+        if response.status_code in self.NO_BODY_STATUS_CODES:
+            return response
 
         if self._is_structured_response(response):
             return response
@@ -122,7 +132,6 @@ class BaseAPIView(CustomResponseMixin, generics.GenericAPIView):
 
 
 class ListAPIView(mixins.ListModelMixin, PaginatedListMixin, BaseAPIView):
-
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
@@ -140,7 +149,6 @@ class RetrieveAPIView(mixins.RetrieveModelMixin, BaseAPIView):
 
 
 class UpdateAPIView(mixins.UpdateModelMixin, BaseAPIView):
-
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 

@@ -1,16 +1,17 @@
-from rest_framework import generics
 from rest_framework.response import Response
 
+from core.api.views import BaseAPIView
 
-class HealthAPIView(generics.RetrieveAPIView):
+
+class HealthAPIView(BaseAPIView):
     permission_classes = []
 
-    def retrieve(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         return Response(data={"status": "ok"}, status=200)
 
 
-class TestAPIView(generics.RetrieveAPIView):
+class TestAPIView(BaseAPIView):
     permission_classes = []
 
-    def retrieve(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         return Response(data={"message": "This is a test endpoint."}, status=200)

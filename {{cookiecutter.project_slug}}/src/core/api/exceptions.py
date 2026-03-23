@@ -10,10 +10,8 @@ class CustomAPIExceptionHandler:
         - error: An error code derived from the exception (if available)
     """
 
-    def __call__(self, exc, context):
-        return self.handle(exc, context)
-
-    def handle(self, exc: Exception, context: dict | list) -> Response | None:
+    @classmethod
+    def handle(cls, exc: Exception, context: dict | list) -> Response | None:
 
         # Use DRF's default exception handler to get the standard error response
         from rest_framework.views import exception_handler
@@ -27,22 +25,23 @@ class CustomAPIExceptionHandler:
         error_messages = []
 
         if isinstance(response.data, dict):
-            error_messages.extend(self._get_dict_errors(response))
+            error_messages.extend(cls._get_dict_errors(response))
 
         elif isinstance(response.data, list):
-            error_messages.extend(self._get_list_errors(response))
+            error_messages.extend(cls._get_list_errors(response))
 
         final_message = "; ".join(error_messages).strip()
 
         response.data = {
             "success": False,
             "message": final_message or "An unexpected error occurred.",
-            "error": self._get_error_code(exc),
+            "error": cls._get_error_code(exc),
         }
 
         return response
 
-    def _get_dict_errors(self, response: Response) -> list[str]:
+    @staticmethod
+    def _get_dict_errors(response: Response) -> list[str]:
         error_messages = []
 
         for field, messages in response.data.items():
@@ -57,11 +56,12 @@ class CustomAPIExceptionHandler:
                     error_messages.append(f"{field}.{sub_field}: {joined}")
             else:
                 # General (non-field) errors, e.g. 'detail'
-                error_messages.append(str(error_messages))
+                error_messages.append(str(messages))
 
         return error_messages
 
-    def _get_list_errors(self, response: Response) -> list[str]:
+    @staticmethod
+    def _get_list_errors(response: Response) -> list[str]:
         error_messages = []
 
         # Non-field errors as a list
@@ -70,5 +70,6 @@ class CustomAPIExceptionHandler:
 
         return error_messages
 
-    def _get_error_code(self, exc: Exception) -> str:
+    @staticmethod
+    def _get_error_code(exc: Exception) -> str:
         return getattr(exc, "code", getattr(exc, "default_code", "error"))
