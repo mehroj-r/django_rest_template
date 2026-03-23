@@ -2,7 +2,11 @@ import logging
 import queue
 import threading
 import traceback
+
 import requests
+
+logger = logging.getLogger(__name__)
+
 
 class TelegramErrorHandler(logging.Handler):
     """
@@ -49,11 +53,10 @@ class TelegramErrorHandler(logging.Handler):
                     },
                     timeout=5,
                 )
-            except Exception:
-                pass
+            except Exception as e:
+                logger.error(f"Failed to send log to Telegram: {e}")
             finally:
                 self.queue.task_done()
-
 
 
 class RequestContextFilter(logging.Filter):

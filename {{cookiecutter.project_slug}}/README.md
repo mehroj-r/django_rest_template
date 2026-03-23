@@ -125,6 +125,7 @@ POST /api/v1/token/refresh/
 Set these for development/production as needed:
 - `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS`
 - Database: `DB_NAME`, `DB_USER_NM`, `DB_USER_PW`, `DB_IP`, `DB_PORT`
+- Logging: `LOGGING_TELEGRAM_BOT_TOKEN`, `LOGGING_TELEGRAM_CHAT_ID`
 
 ---
 

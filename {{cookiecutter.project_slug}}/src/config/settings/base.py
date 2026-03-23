@@ -180,15 +180,6 @@ LOGGING = {
             "backupCount": 60,
             "formatter": "verbose",
         },
-        # Slow queries
-        "slow_queries_file": {
-            "level": "WARNING",
-            "class": "logging.handlers.TimedRotatingFileHandler",
-            "filename": "../logs/slow_queries.log",
-            "when": "midnight",
-            "backupCount": 30,
-            "formatter": "verbose",
-        },
         # Telegram alerts
         "telegram_errors": {
             "level": "ERROR",
@@ -212,12 +203,6 @@ LOGGING = {
             "level": "ERROR",
             "propagate": False,
         },
-        # Slow queries
-        "django.db.backends": {
-            "handlers": ["slow_queries_file"],
-            "level": "WARNING",
-            "propagate": False,
-        },
         # Universal logger (entire project)
         "": {
             "handlers": ["app_file", "console"],
@@ -235,7 +220,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
     "DEFAULT_PAGINATION_CLASS": "core.utils.pagination.CustomPagination",
     "PAGE_SIZE": 10,
-    "EXCEPTION_HANDLER": "core.api.exceptions.custom_exception_handler",  # noqa
+    "EXCEPTION_HANDLER": "core.api.exceptions.CustomAPIExceptionHandler",  # noqa
 }
 
 AUTH_USER_MODEL = "account.User"  # noqa
