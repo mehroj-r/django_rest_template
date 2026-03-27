@@ -1,16 +1,17 @@
-from django.db.models import Manager
+from django_softdelete.managers import (
+    DeletedManager as DjangoDeletedManager,
+    GlobalManager as DjangoGlobalManager,
+    SoftDeleteManager as DjangoSoftDeleteManager,
+)
 
-class SoftDeleteManager(Manager):
-    """Manager that filters out soft-deleted objects by default."""
 
-    def get_queryset(self):
-        """Return NOT DELETED objects."""
-        return super().get_queryset().filter(deleted_at__isnull=True)
+class SoftDeleteManager(DjangoSoftDeleteManager):
+    pass
 
-    def deleted(self):
-        """Return DELETED objects."""
-        return super().get_queryset().filter(deleted_at__isnull=False)
 
-    def with_deleted(self):
-        """Return ALL objects."""
-        return super().get_queryset()
+class DeletedManager(DjangoDeletedManager):
+    pass
+
+
+class GlobalManager(DjangoGlobalManager):
+    pass

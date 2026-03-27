@@ -8,7 +8,12 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument("app_name", type=str, help="Name of the new app")
-        parser.add_argument("--ver", type=str, default="v1", help="API version folder to generate (default: v1)")
+        parser.add_argument(
+            "--ver",
+            type=str,
+            default="v1",
+            help="API version folder to generate (default: v1)",
+        )
 
     def handle(self, *args, **options):
         app_name = options["app_name"]
@@ -21,7 +26,9 @@ class Command(BaseCommand):
         api_files = {
             "serializers.py": "",
             "views.py": "",
-            "urls.py": f"from django.urls import path\n\n" f'app_name = "{app_name}"\n\n' f"urlpatterns = []\n",
+            "urls.py": f"from django.urls import path\n\n"
+            f'app_name = "{app_name}"\n\n'
+            f"urlpatterns = []\n",
             "__init__.py": "",
         }
 
@@ -41,8 +48,11 @@ class Command(BaseCommand):
                 f'    default_auto_field = "django.db.models.BigAutoField"\n'
                 f'    name = "{app_name}"\n'
             ),
-            "admin/__init__.py": "",
-            "admin/admins.py": "",
+            "admin.py": (
+                '"""Admin registrations for this app.\n\n'
+                "Use core.admin.BaseModelAdmin (or BaseSoftDeleteModelAdmin for soft-delete models).\n"
+                '"""\n'
+            ),
             "migrations/__init__.py": "",
         }
 

@@ -36,7 +36,7 @@ def apply_dependencies(patcher: FilePatcher) -> None:
 
 def apply_admin_import(patcher: FilePatcher) -> None:
     patcher.ensure_replace(
-        "src/core/admin/admins.py",
+        "src/core/admin.py",
         "from django.contrib.admin import ModelAdmin\n",
         "from unfold.admin import ModelAdmin\n",
         marker="from unfold.admin import ModelAdmin",

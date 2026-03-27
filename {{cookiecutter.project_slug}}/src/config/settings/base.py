@@ -24,6 +24,7 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "corsheaders",
+    "django_softdelete",
 ]
 
 LOCAL_APPS = [
