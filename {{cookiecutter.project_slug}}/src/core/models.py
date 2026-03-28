@@ -15,16 +15,16 @@ class BaseModel(models.Model):
 
 class TimestampedModel(BaseModel):
     created_at = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name=_("Created At"))
-    updated_at = models.DateTimeField(auto_now=True, db_index=True, verbose_name=_("Updated At"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))
 
     class Meta:
         abstract = True
 
 
-class SoftDeleteModel(DjangoSoftDeleteModel):
+class SoftDeleteModel(DjangoSoftDeleteModel, BaseModel):
     deleted_at = models.DateTimeField(null=True, blank=True, db_index=True, verbose_name=_("Deleted At"))
-    restored_at = models.DateTimeField(null=True, blank=True, db_index=True, verbose_name=_("Restored At"))
-    transaction_id = models.UUIDField(null=True, blank=True, db_index=True, verbose_name=_("Transaction ID"))
+    restored_at = models.DateTimeField(null=True, blank=True, verbose_name=_("Restored At"))
+    transaction_id = models.UUIDField(null=True, blank=True, verbose_name=_("Transaction ID"))
 
     objects = SoftDeleteManager()
     deleted_objects = DeletedManager()

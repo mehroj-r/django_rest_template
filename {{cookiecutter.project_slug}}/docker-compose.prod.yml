@@ -21,6 +21,8 @@ services:
     container_name: "{{ cookiecutter.docker_name_prefix }}-web-prod"
     build: .
     entrypoint: /app/scripts/entrypoint.sh
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.prod
     volumes:
       - app_data:/app/cdn
     ports:
