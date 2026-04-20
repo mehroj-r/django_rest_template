@@ -77,6 +77,23 @@ docker-compose up --build
 docker-compose -f docker-compose.prod.yml up --build
 ```
 
+### 5. Command Manager (Justfile)
+Use `just` from the project root to run common actions:
+
+```bash
+just help
+just install
+just run
+just migrate
+just test
+just up
+just down
+just health
+just startapp my_app
+```
+
+Tip: `just` loads `.env` automatically in this template.
+
 ---
 
 ## 🔐 Authentication
