@@ -9,6 +9,7 @@
     "django-unfold"
   ],
   "_copy_without_render": [
-    ".github/workflows/*.yml"
+    ".github/workflows/*.yml",
+    "Justfile"
   ]
 }

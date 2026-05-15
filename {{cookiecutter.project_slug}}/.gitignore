@@ -152,10 +152,6 @@ __snapshots__/
 # Pytype
 .pytype/
 
-
-# Logs
-logs/
-
 # Jupyter
 .ipynb_checkpoints/
 

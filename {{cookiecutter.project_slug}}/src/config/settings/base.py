@@ -106,9 +106,6 @@ LOGGING_TELEGRAM_BOT_TOKEN = config("LOGGING_TELEGRAM_BOT_TOKEN", default="")
 LOGGING_TELEGRAM_CHAT_ID = config("LOGGING_TELEGRAM_CHAT_ID", default="")
 PROJECT_NAME = config("PROJECT_NAME", default="{{ cookiecutter.project_name }}")
 
-# Ensure logs directory exists
-os.makedirs(BASE_DIR.parent / "logs", exist_ok=True)
-
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -134,14 +131,6 @@ LOGGING = {
                 "CRITICAL": "bold_red",
             },
         },
-        "verbose": {
-            "format": (
-                "[%(asctime)s] [%(levelname)s] "
-                "%(name)s:%(module)s:%(filename)s:%(lineno)d "
-                "%(funcName)s | %(message)s"
-            ),
-            "datefmt": "%Y-%m-%d %H:%M:%S",
-        },
         "telegram": {
             "format": (
                 "*🚨 Django Error Alert (500)*\n"
@@ -164,24 +153,6 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "colored",
         },
-        # Main app log (rotating)
-        "app_file": {
-            "level": "INFO",
-            "class": "logging.handlers.TimedRotatingFileHandler",
-            "filename": "../logs/app.log",
-            "when": "midnight",
-            "backupCount": 30,
-            "formatter": "verbose",
-        },
-        # Error log (rotating)
-        "error_file": {
-            "level": "ERROR",
-            "class": "logging.handlers.TimedRotatingFileHandler",
-            "filename": "../logs/error.log",
-            "when": "midnight",
-            "backupCount": 60,
-            "formatter": "verbose",
-        },
         # Telegram alerts
         "telegram_errors": {
             "level": "ERROR",
@@ -195,19 +166,19 @@ LOGGING = {
     "loggers": {
         # Django internal logs
         "django": {
-            "handlers": ["app_file", "console"],
+            "handlers": ["console"],
             "level": "INFO",
             "propagate": False,
         },
         # Django request errors → TELEGRAM!
         "django.request": {
-            "handlers": ["telegram_errors", "error_file"],
+            "handlers": ["telegram_errors", "console"],
             "level": "ERROR",
             "propagate": False,
         },
         # Universal logger (entire project)
         "": {
-            "handlers": ["app_file", "console"],
+            "handlers": ["console"],
             "level": "INFO",
         },
     },

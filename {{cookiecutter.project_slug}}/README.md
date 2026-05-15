@@ -42,7 +42,6 @@ A production-ready, scalable Django REST API template for rapid backend developm
 - **Admin Panel**: Django admin enabled for all registered models.
 - **API Versioning**: Organize endpoints under `/api/v1/` and beyond.
 - **Utility Scripts**: Backup, entrypoint, and other scripts for automation.
-- **Logging**: Centralized log directory for error and access logs.
 
 ---
 
@@ -132,7 +131,6 @@ POST /api/v1/token/refresh/
 
 - **Django Debug Toolbar** (dev only)
 - **Django Extensions** (dev only)
-- **Custom Logging**: All logs in `/logs/`
 - **Scripts**: Use `scripts/backup.sh` for DB backups, `scripts/entrypoint.sh` for Docker entrypoint
 
 ---
