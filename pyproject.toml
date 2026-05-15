@@ -7,3 +7,30 @@ requires-python = ">=3.13"
 dependencies = [
     "cookiecutter>=2.7.1",
 ]
+
+[dependency-groups]
+dev = [
+    "cffi>=1.17.1",
+    "colorlog>=6.10.1",
+    "dj-database-url>=3.0.1",
+    "django>=5.2.4",
+    "django-soft-delete>=1.0.23",
+    "django-cors-headers>=4.9.0",
+    "django-filter>=25.1",
+    "whitenoise>=6.11.0",
+    "djangorestframework>=3.16.0",
+    "djangorestframework-simplejwt[crypto]>=5.5.1",
+    "markdown>=3.8.2",
+    "psycopg2-binary>=2.9.10",
+    "pycparser>=2.22",
+    "pygments>=2.19.2",
+    "python-decouple>=3.8",
+    "requests>=2.32.5",
+    "sentry-sdk>=2.34.1",
+    "sqlparse>=0.5.3",
+    "uvicorn>=0.37.0",
+    "black>=25.9.0",
+    "django-debug-toolbar>=6.0.0",
+    "django-extensions>=4.1",
+    "django-query-counter>=0.4.1",
+]

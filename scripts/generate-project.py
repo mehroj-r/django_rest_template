@@ -63,7 +63,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--template",
-        default=str(Path(__file__).resolve().parent),
+        default=str(Path(__file__).resolve().parent.parent),
         help="Path to cookiecutter template repository (default: this repository)",
     )
     parser.add_argument(
