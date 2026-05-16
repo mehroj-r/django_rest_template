@@ -4,6 +4,12 @@
   "distribution_name": "{{ cookiecutter.project_slug|replace('_', '-') }}",
   "docker_name_prefix": "{{ cookiecutter.project_slug|replace('_', '-') }}",
   "github_username": "your-github-username",
+  "open_source_license": [
+    "None",
+    "MIT",
+    "Apache-2.0",
+    "GPL-3.0"
+  ],
   "admin_ui": [
     "default",
     "django-unfold"
@@ -16,5 +22,8 @@
   "_copy_without_render": [
     ".github/workflows/*.yml",
     "Justfile"
+  ],
+  "_extensions": [
+    "jinja2_time.TimeExtension"
   ]
 }

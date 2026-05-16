@@ -13,9 +13,15 @@ if TYPE_CHECKING:
 ADMIN_UI = "{{ cookiecutter.admin_ui }}"
 BACKGROUND_TASK = "{{ cookiecutter.background_task }}"
 DOCKER_NAME_PREFIX = "{{ cookiecutter.docker_name_prefix }}"
+OPEN_SOURCE_LICENSE = "{{ cookiecutter.open_source_license }}"
 PROJECT_SLUG = "{{ cookiecutter.project_slug }}"
 REPO_DIR = "{{ cookiecutter._repo_dir }}"
 TEMPLATE_REF = "{{ cookiecutter._template }}"
+
+
+def remove_license_if_none() -> None:
+    if OPEN_SOURCE_LICENSE == "None":
+        Path("LICENSE").unlink(missing_ok=True)
 
 
 def resolve_repo_dir() -> Path:
@@ -79,6 +85,8 @@ def collect_patches() -> list[PatchSpec]:
 
 
 def main() -> int:
+    remove_license_if_none()
+
     patches = collect_patches()
     if not patches:
         return 0
