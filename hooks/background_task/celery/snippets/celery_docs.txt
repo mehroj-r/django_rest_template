@@ -1,0 +1,49 @@
+# Background Tasks (Celery)
+
+This project uses **Celery** with **Redis** as a message broker.
+
+## Defining Tasks
+
+Create a `tasks.py` file inside your app and define tasks using the `@shared_task` decorator:
+
+```python
+from celery import shared_task
+
+@shared_task
+def process_data(data_id: int):
+    # Perform background processing
+    print(f"Processing {data_id}...")
+    return True
+```
+
+## Initiating a Task
+
+To properly initiate a background task, use the `.delay()` method on the task function. This sends the task to the queue instead of running it synchronously.
+
+```python
+from myapp.tasks import process_data
+
+# Queue the task
+process_data.delay(123)
+
+# For more complex scheduling or options, use .apply_async()
+# process_data.apply_async(args=[123], countdown=10)
+```
+
+## Running the Worker
+
+When using Docker, the worker starts automatically. To run it locally:
+
+```bash
+celery -A core worker --loglevel=info
+```
+
+## Configuration
+
+Broker and backend URLs are managed via environment variables:
+- `CELERY_BROKER_URL`
+- `CELERY_RESULT_BACKEND`
+
+## Further Reading
+
+For advanced configuration, scheduling, and monitoring, refer to the [official Celery documentation](https://docs.celeryq.dev/en/stable/).

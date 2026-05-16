@@ -8,6 +8,11 @@
     "default",
     "django-unfold"
   ],
+  "background_task": [
+    "none",
+    "celery",
+    "django-q2"
+  ],
   "_copy_without_render": [
     ".github/workflows/*.yml",
     "Justfile"

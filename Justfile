@@ -13,15 +13,15 @@ sync:
 
 # Generate a test project
 test-gen:
-    python scripts/generate-project.py /tmp/django-test-project
+    python scripts/generate-project.py ./build
 
 # Run tests in a newly generated test project
 test: test-gen
-    cd /tmp/django-test-project/src && uv sync && uv run manage.py test
+    cd ./build/src && uv sync && uv run manage.py test
 
 # Clean up generated test projects
 clean:
-    rm -rf /tmp/django-test-project
+    rm -rf ./build
 
 # Lint the code using ruff and ty
 lint:

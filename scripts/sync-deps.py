@@ -5,6 +5,7 @@ from pathlib import Path
 ROOT_DIR = Path(__file__).parent.parent
 TEMPLATE_TOML = ROOT_DIR / "{{cookiecutter.project_slug}}/pyproject.toml"
 
+
 def main():
     if not TEMPLATE_TOML.exists():
         print(f"Error: Template pyproject.toml not found at {TEMPLATE_TOML}")
@@ -28,6 +29,7 @@ def main():
         print("Successfully installed template dependencies.")
     except subprocess.CalledProcessError as e:
         print(f"Error installing dependencies: {e}")
+
 
 if __name__ == "__main__":
     main()

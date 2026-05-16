@@ -1,0 +1,46 @@
+# Background Tasks (Django-Q2)
+
+This project uses **Django-Q2** for background task management.
+
+## Defining Tasks
+
+You can queue any regular Python function as a background task. It's recommended to place them in a `tasks.py` file within your app.
+
+```python
+def process_data(data_id: int):
+    # Perform background processing
+    print(f"Processing {data_id}...")
+    return True
+```
+
+## Initiating a Task
+
+To properly initiate a background task, use `async_task` from `django_q.tasks` and pass the function along with its arguments. This sends the task to the queue.
+
+```python
+from django_q.tasks import async_task
+from myapp.tasks import process_data
+
+# Queue the task
+task_id = async_task(process_data, 123)
+
+# For scheduled tasks, you can use the Schedule model or schedule() function
+# from django_q.tasks import schedule
+# schedule(process_data, 123, hook='myapp.hooks.print_result', schedule_type='O')
+```
+
+## Running the Cluster
+
+When using Docker, the `qcluster` starts automatically. To run it locally:
+
+```bash
+python manage.py qcluster
+```
+
+## Configuration
+
+The cluster configuration is located in `src/config/settings/base.py` under the `Q_CLUSTER` dictionary. It uses Redis as a broker, configured via the `REDIS_URL` environment variable.
+
+## Further Reading
+
+For advanced configuration, scheduled tasks, and cluster monitoring, refer to the [official Django-Q2 documentation](https://django-q2.readthedocs.io/en/master/).

@@ -64,6 +64,12 @@ class FilePatcher:
     def write_text(self, relative_path: str, content: str) -> None:
         self.resolve_path(relative_path).write_text(content, encoding="utf-8")
 
+    def create_file(self, relative_path: str, content: str) -> None:
+        path = self.project_root / relative_path
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(content, encoding="utf-8")
+        self._record("create_file", relative_path, f"Created {relative_path}")
+
     def _record(self, op: str, relative_path: str, detail: str) -> None:
         self.records.append(OperationRecord(op=op, path=relative_path, detail=detail))
 

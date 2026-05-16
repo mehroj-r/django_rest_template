@@ -11,6 +11,9 @@ if TYPE_CHECKING:
     from patching.engine import PatchSpec
 
 ADMIN_UI = "{{ cookiecutter.admin_ui }}"
+BACKGROUND_TASK = "{{ cookiecutter.background_task }}"
+DOCKER_NAME_PREFIX = "{{ cookiecutter.docker_name_prefix }}"
+PROJECT_SLUG = "{{ cookiecutter.project_slug }}"
 REPO_DIR = "{{ cookiecutter._repo_dir }}"
 TEMPLATE_REF = "{{ cookiecutter._template }}"
 
@@ -54,11 +57,23 @@ def bootstrap_hooks_imports() -> None:
 def collect_patches() -> list[PatchSpec]:
     patches: list[PatchSpec] = []
 
-    if ADMIN_UI == "django-unfold":
+    if ADMIN_UI == "django-unfold" or BACKGROUND_TASK != "none":
         bootstrap_hooks_imports()
+
+    if ADMIN_UI == "django-unfold":
         from admin_ui.unfold import get_patches as get_unfold_patches
 
         patches.extend(get_unfold_patches())
+
+    if BACKGROUND_TASK == "celery":
+        from background_task.celery import get_patches as get_celery_patches
+
+        patches.extend(get_celery_patches(docker_prefix=DOCKER_NAME_PREFIX, project_slug=PROJECT_SLUG))
+
+    if BACKGROUND_TASK == "django-q2":
+        from background_task.django_q2 import get_patches as get_q2_patches
+
+        patches.extend(get_q2_patches(docker_prefix=DOCKER_NAME_PREFIX, project_slug=PROJECT_SLUG))
 
     return patches
 

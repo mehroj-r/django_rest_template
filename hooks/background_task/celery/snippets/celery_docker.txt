@@ -1,0 +1,21 @@
+  redis:
+    container_name: "{{ cookiecutter.docker_name_prefix }}-redis-dev"
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  celery_worker:
+    build: .
+    container_name: "{{ cookiecutter.docker_name_prefix }}-celery-worker-dev"
+    command: celery -A core worker --loglevel=info
+    volumes:
+      - app_data:/app/cdn
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped
+    env_file:
+      - .env

@@ -1,0 +1,21 @@
+  redis:
+    container_name: "{{ cookiecutter.docker_name_prefix }}-redis-dev"
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  qcluster:
+    build: .
+    container_name: "{{ cookiecutter.docker_name_prefix }}-qcluster-dev"
+    command: python manage.py qcluster
+    volumes:
+      - app_data:/app/cdn
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped
+    env_file:
+      - .env
