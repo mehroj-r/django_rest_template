@@ -22,3 +22,12 @@ test: test-gen
 # Clean up generated test projects
 clean:
     rm -rf /tmp/django-test-project
+
+# Lint the code using ruff and ty
+lint:
+    ruff check --extend-exclude "{{'{{'}}cookiecutter.project_slug{{'}}'}}" --extend-exclude "{{'{{'}} cookiecutter.project_slug {{'}}'}}" .
+    ty check .
+
+# Format the code using ruff
+format:
+    ruff format .

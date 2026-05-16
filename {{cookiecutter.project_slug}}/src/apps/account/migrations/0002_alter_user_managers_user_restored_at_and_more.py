@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("account", "0001_initial"),
     ]
@@ -20,15 +19,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="user",
             name="restored_at",
-            field=models.DateTimeField(
-                blank=True, db_index=True, null=True, verbose_name="Restored At"
-            ),
+            field=models.DateTimeField(blank=True, db_index=True, null=True, verbose_name="Restored At"),
         ),
         migrations.AddField(
             model_name="user",
             name="transaction_id",
-            field=models.UUIDField(
-                blank=True, db_index=True, null=True, verbose_name="Transaction ID"
-            ),
+            field=models.UUIDField(blank=True, db_index=True, null=True, verbose_name="Transaction ID"),
         ),
     ]

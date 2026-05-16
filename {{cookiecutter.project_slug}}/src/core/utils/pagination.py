@@ -21,4 +21,4 @@ class CustomPagination(pagination.PageNumberPagination):
         )
 
     def paginated_queryset(self, qs, request):
-        return super(CustomPagination, self).paginate_queryset(qs, request)
+        return super().paginate_queryset(qs, request)

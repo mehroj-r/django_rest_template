@@ -1,6 +1,5 @@
-from rest_framework.response import Response
-
 from core.api.views import BaseAPIView
+from rest_framework.response import Response
 
 
 class HealthAPIView(BaseAPIView):

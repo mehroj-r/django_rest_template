@@ -1,7 +1,7 @@
 from pathlib import Path
-from decouple import config
+
 import dj_database_url
-import os
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 DEBUG = config("DEBUG", default=False, cast=bool)
@@ -187,9 +187,7 @@ LOGGING = {
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication"
-    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": ["rest_framework_simplejwt.authentication.JWTAuthentication"],
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated"],
     "DEFAULT_PAGINATION_CLASS": "core.utils.pagination.CustomPagination",
     "PAGE_SIZE": 10,

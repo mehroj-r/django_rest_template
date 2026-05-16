@@ -1,13 +1,10 @@
+from account import managers
+from core.models import SoftDeleteModel, TimestampedModel
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
 
-from core.models import TimestampedModel, SoftDeleteModel
-
-from account import managers
-
 
 class User(AbstractBaseUser, TimestampedModel, SoftDeleteModel):
-
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30, blank=True, null=True)
     patronymic = models.CharField(max_length=100, blank=True, null=True)

@@ -1,8 +1,7 @@
-from django_softdelete.managers import (
-    DeletedManager as DjangoDeletedManager,
-    GlobalManager as DjangoGlobalManager,
-    SoftDeleteManager as DjangoSoftDeleteManager,
-)
+from django_softdelete.managers import DeletedManager as DjangoDeletedManager
+from django_softdelete.managers import GlobalManager as DjangoGlobalManager
+from django_softdelete.managers import SoftDeleteManager as DjangoSoftDeleteManager
+
 
 
 class SoftDeleteManager(DjangoSoftDeleteManager):

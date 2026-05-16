@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.contrib.admin import ModelAdmin
 from django_softdelete.admin import (
     HARD_DELETE_ACTION,
@@ -6,7 +8,6 @@ from django_softdelete.admin import (
     SOFT_DELETE_ACTION,
 )
 from django_softdelete.filters import SoftDeleteFilter
-from typing import Any
 
 
 class BaseModelAdmin(ModelAdmin):

@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = []
@@ -25,27 +24,19 @@ class Migration(migrations.Migration):
                 ("password", models.CharField(max_length=128, verbose_name="password")),
                 (
                     "last_login",
-                    models.DateTimeField(
-                        blank=True, null=True, verbose_name="last login"
-                    ),
+                    models.DateTimeField(blank=True, null=True, verbose_name="last login"),
                 ),
                 (
                     "created_at",
-                    models.DateTimeField(
-                        auto_now_add=True, db_index=True, verbose_name="Created At"
-                    ),
+                    models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Created At"),
                 ),
                 (
                     "updated_at",
-                    models.DateTimeField(
-                        auto_now=True, db_index=True, verbose_name="Updated At"
-                    ),
+                    models.DateTimeField(auto_now=True, db_index=True, verbose_name="Updated At"),
                 ),
                 (
                     "deleted_at",
-                    models.DateTimeField(
-                        blank=True, db_index=True, null=True, verbose_name="Deleted At"
-                    ),
+                    models.DateTimeField(blank=True, db_index=True, null=True, verbose_name="Deleted At"),
                 ),
                 ("first_name", models.CharField(max_length=30)),
                 ("last_name", models.CharField(blank=True, max_length=30, null=True)),

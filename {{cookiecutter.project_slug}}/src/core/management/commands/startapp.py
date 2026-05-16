@@ -1,4 +1,5 @@
 import os
+
 from django.conf import settings
 from django.core.management import BaseCommand, CommandError
 
@@ -99,7 +100,7 @@ class Command(BaseCommand):
     def add_to_local_apps(self, settings_file, app_name):
         """Append the app to LOCAL_APPS before its closing bracket."""
         try:
-            with open(settings_file, "r") as f:
+            with open(settings_file) as f:
                 lines = f.readlines()
         except FileNotFoundError:
             raise CommandError(f"Settings file not found: {settings_file}")

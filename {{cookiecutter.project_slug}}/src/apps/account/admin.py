@@ -1,7 +1,6 @@
-from django.contrib import admin
-
 from account.models import User
 from core.admin import BaseSoftDeleteModelAdmin
+from django.contrib import admin
 
 
 @admin.register(User)

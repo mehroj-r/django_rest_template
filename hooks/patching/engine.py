@@ -1,9 +1,9 @@
 from __future__ import annotations
 
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from heapq import heappop, heappush
 from pathlib import Path
-from typing import Callable, Sequence
 
 from .ops import FilePatcher
 

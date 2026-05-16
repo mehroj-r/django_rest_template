@@ -1,7 +1,6 @@
-import os
 from datetime import timedelta
-from .base import *
 
+from .base import *
 
 if DEBUG:
     INSTALLED_APPS += [

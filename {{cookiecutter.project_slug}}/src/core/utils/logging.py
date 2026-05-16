@@ -80,9 +80,7 @@ class RequestContextFilter(logging.Filter):
 
         if record.exc_info:
             exc_type, exc_value, exc_tb = record.exc_info
-            record.traceback = "".join(
-                traceback.format_exception(exc_type, exc_value, exc_tb)
-            )
+            record.traceback = "".join(traceback.format_exception(exc_type, exc_value, exc_tb))
         else:
             record.traceback = "No traceback"
 

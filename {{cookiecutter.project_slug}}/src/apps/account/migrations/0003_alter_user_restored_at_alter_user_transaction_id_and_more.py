@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("account", "0002_alter_user_managers_user_restored_at_and_more"),
     ]
@@ -13,16 +12,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="user",
             name="restored_at",
-            field=models.DateTimeField(
-                blank=True, null=True, verbose_name="Restored At"
-            ),
+            field=models.DateTimeField(blank=True, null=True, verbose_name="Restored At"),
         ),
         migrations.AlterField(
             model_name="user",
             name="transaction_id",
-            field=models.UUIDField(
-                blank=True, null=True, verbose_name="Transaction ID"
-            ),
+            field=models.UUIDField(blank=True, null=True, verbose_name="Transaction ID"),
         ),
         migrations.AlterField(
             model_name="user",

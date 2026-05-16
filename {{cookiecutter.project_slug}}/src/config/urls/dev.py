@@ -2,7 +2,7 @@ from django.conf import settings
 
 if settings.DEBUG:
     from debug_toolbar.toolbar import debug_toolbar_urls
-    from django.urls import path, include
+    from django.urls import include, path
 
     urlpatterns = [
         path("api-auth/", include("rest_framework.urls")),

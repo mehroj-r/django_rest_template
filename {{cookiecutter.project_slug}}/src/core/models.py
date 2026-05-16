@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-
 from django_softdelete.models import SoftDeleteModel as DjangoSoftDeleteModel
 
 from core.managers import DeletedManager, GlobalManager, SoftDeleteManager

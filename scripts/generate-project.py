@@ -29,8 +29,7 @@ def prepare_target_directory(target_dir: Path, force: bool) -> None:
 
     if any(target_dir.iterdir()) and not force:
         raise RuntimeError(
-            f"Target directory is not empty: {target_dir}. "
-            "Use --force to merge/overwrite existing files."
+            f"Target directory is not empty: {target_dir}. Use --force to merge/overwrite existing files."
         )
 
 
@@ -58,9 +57,7 @@ def build_parser() -> argparse.ArgumentParser:
             "the target directory root (no nested project_slug folder)."
         )
     )
-    parser.add_argument(
-        "target_dir", help="Directory where generated project files will be placed"
-    )
+    parser.add_argument("target_dir", help="Directory where generated project files will be placed")
     parser.add_argument(
         "--template",
         default=str(Path(__file__).resolve().parent.parent),
@@ -108,7 +105,7 @@ def main() -> int:
         import importlib
 
         cookiecutter_module = importlib.import_module("cookiecutter.main")
-        cookiecutter_fn = getattr(cookiecutter_module, "cookiecutter")
+        cookiecutter_fn = cookiecutter_module.cookiecutter
     except Exception:  # noqa: BLE001
         print(
             "Error: cookiecutter is not installed. Install it with: pip install cookiecutter",
