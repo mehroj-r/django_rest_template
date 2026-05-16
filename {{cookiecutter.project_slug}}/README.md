@@ -26,7 +26,7 @@ A production-ready, scalable Django REST API template for rapid backend developm
 │   │   ├── settings/                              # base.py, dev.py, prod.py
 │   │   ├── urls/                                  # URL configs
 │   │   └── ...
-├── pyproject.toml / uv.lock                       # Python dependencies
+├── pyproject.toml                                 # Python dependencies
 ├── logs/                                          # Log files
 └── README.md
 ```
@@ -61,6 +61,8 @@ python manage.py migrate
 python manage.py createsuperuser  # optional
 python manage.py runserver
 ```
+
+`uv.lock` is intentionally not committed in this template. It is generated locally on the first `uv sync`.
 
 ### 3. Dockerized Development
 ```bash

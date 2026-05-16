@@ -92,10 +92,7 @@ class CustomResponseMixin:
 
     @staticmethod
     def _is_structured_response(response: Response) -> bool:
-        is_already_structured: bool = (
-            isinstance(response.data, dict) and "success" in response.data and "message" in response.data
-        )
-        return is_already_structured
+        return isinstance(response.data, dict) and "success" in response.data and "message" in response.data
 
 
 class BaseAPIView(CustomResponseMixin, generics.GenericAPIView):

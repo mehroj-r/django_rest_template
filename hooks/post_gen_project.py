@@ -11,6 +11,7 @@ if TYPE_CHECKING:
     from patching.engine import PatchSpec
 
 ADMIN_UI = "{{ cookiecutter.admin_ui }}"
+API_FRAMEWORK = "{{ cookiecutter.api_framework }}"
 BACKGROUND_TASK = "{{ cookiecutter.background_task }}"
 DOCKER_NAME_PREFIX = "{{ cookiecutter.docker_name_prefix }}"
 OPEN_SOURCE_LICENSE = "{{ cookiecutter.open_source_license }}"
@@ -63,8 +64,13 @@ def bootstrap_hooks_imports() -> None:
 def collect_patches() -> list[PatchSpec]:
     patches: list[PatchSpec] = []
 
-    if ADMIN_UI == "django-unfold" or BACKGROUND_TASK != "none":
+    if ADMIN_UI == "django-unfold" or BACKGROUND_TASK != "none" or API_FRAMEWORK == "django-modern-rest":
         bootstrap_hooks_imports()
+
+    if API_FRAMEWORK == "django-modern-rest":
+        from api_framework.django_modern_rest import get_patches as get_dmr_patches
+
+        patches.extend(get_dmr_patches())
 
     if ADMIN_UI == "django-unfold":
         from admin_ui.unfold import get_patches as get_unfold_patches

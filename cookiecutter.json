@@ -14,6 +14,10 @@
     "default",
     "django-unfold"
   ],
+  "api_framework": [
+    "drf",
+    "django-modern-rest"
+  ],
   "background_task": [
     "none",
     "celery",

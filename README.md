@@ -48,3 +48,6 @@ cookiecutter . -o ./cookiecutter-output
 - `docker_name_prefix`
 - `github_username`
 - `admin_ui` (`default` or `django-unfold`)
+- `api_framework` (`drf` or `django-modern-rest`)
+
+Note: generated projects do not include `uv.lock` from the template; it is created after first `uv sync`.
